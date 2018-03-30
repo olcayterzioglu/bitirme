@@ -1,0 +1,16 @@
+>> imshow('testresim.jpg'); % resmi gösterme
+>> resim=siyah_beyaz_yap('testresim.jpg'); % resmi siyah_beyaz_yap fonksiyonuyla siyah beyaz yapma
+>> imshow(resim); % resmi gösterme
+
+
+>> imtool(resim); % imtool penceresiyle resim açma. Bu penceredeki Ýnspect pixel values butonuyla resimdeki piksel deðerlerine ulaþabiliyoruz
+
+>> resim % resmin piksel deðerlerini ekrana yazar
+
+>> dlmwrite('pikselDegerleri.txt', resim, ' '); % resmin piksel deðerlerini dosyaya yazar
+
+>> D = dlmread('pikselDegerleri.txt'); % txt deki piksel deðerlerini okuyup deðiþkene atma
+
+>>A=uint8(D) % double olan D yi uint8 e çevirerek A ya atýyor
+
+>>mexprintf

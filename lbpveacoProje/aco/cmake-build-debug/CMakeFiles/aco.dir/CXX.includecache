@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/Lenovo/CLionProjects/lbpveacoProje/aco/ants.cpp
+ants.h
+C:/Users/Lenovo/CLionProjects/lbpveacoProje/aco/ants.h
+
+C:/Users/Lenovo/CLionProjects/lbpveacoProje/aco/ants.h
+
+C:/Users/Lenovo/CLionProjects/lbpveacoProje/aco/main.cpp
+iostream
+-
+fstream
+-
+math.h
+-
+iomanip
+-
+

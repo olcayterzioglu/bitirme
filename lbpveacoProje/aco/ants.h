@@ -5,17 +5,38 @@
 #ifndef ACO_ANTS_H
 #define ACO_ANTS_H
 
+#include <iostream>
+#include <string>
 
+using namespace std;
 class ants {
 
-public:int konumsatir;
-public:int konumsutun;
-public:int gezilenyerler[][];
+public:
+    ants();//Default constructor
 
-    ants(int x , int y){
-        konumsatir = x;
-        konumsutun = y;
-    }
+    ants(int , int);//Overload Constructor
+
+    ~ants(); // Destructor
+
+    //Accessor fucntions
+    int getKonumSatir() const;
+    int getKonumSutun() const;
+
+    //Mutator functions
+
+    void setKonumSatir(int);
+    void setKonumSutun(int);
+
+
+
+
+
+
+private:
+
+    int konumSatir;
+    int konumSutun;
+
 
 };
 

@@ -4,5 +4,6 @@
 CMakeFiles/aco.dir/ants.cpp.obj: ../ants.cpp
 CMakeFiles/aco.dir/ants.cpp.obj: ../ants.h
 
+CMakeFiles/aco.dir/main.cpp.obj: ../ants.h
 CMakeFiles/aco.dir/main.cpp.obj: ../main.cpp
 

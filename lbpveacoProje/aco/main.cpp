@@ -1,17 +1,33 @@
 #include <iostream>
 #include <fstream>
 #include <math.h>
+#include <vector>
+#include <string>
 #include <iomanip>
+#include <random>
 #include "ants.h"
+#include <cstdlib>
+#include <ctime>
 
+
+void karincaOlustur(vector<ants>&);
+void karincaYazdir(vector<ants>&);
+using namespace std;
+int karincaSayisi = 10;
 int main() {
+    srand(static_cast<int>(time(0)));
+    vector <ants> karincalar;
+    karincaOlustur(karincalar);
+    karincaYazdir(karincalar);
 
     int iterasyon ;
-    int karincaSayisi;
-    static int karincaAdim = 5 ;
+
+    int karincaAdim = 5 ;
     double enbuyukolasilik = 0 ;
     int enbuyukolasiliksatir = 0 ;
     int enbuyukolasiliksutun = 0 ;
+    vector <int> gidilensatir;
+    vector <int> gidilensutun;
 
     double ro = 0.1;            //feromon buharlaşma oranı
     double phi = 0.05;          //feromon bozulma katsayısı
@@ -21,11 +37,11 @@ int main() {
     double epsilon = 0.00001;   // kenar belirleme hata toleransı
 
     double lbpdegerleri[200][300];
-    double sezgiselmatris[198][298];
-    double karincaYonOlasilik[198][298];
+    double sezgiselmatris[200][300];
+    double karincaYonOlasilik[200][300];
     double feromonMatrisi[200][300];
-    double toplamlbp;
-    using namespace std;
+    double toplamlbp = 0;
+
 
     ifstream file("C:\\Users\\Lenovo\\CLionProjects\\lbpveacoProje\\resimdegerleri\\resim3lbp.txt");
     if(file.is_open())
@@ -37,7 +53,7 @@ int main() {
             for(int j = 0; j < 298; j++)
             {
                 file >> lbpdegerleri[i+1][j+1];
-                toplamlbp = toplamlbp + lbpdegerleri[i][j];
+                toplamlbp = toplamlbp + lbpdegerleri[i+1][j+1];
             }
 
         }
@@ -65,9 +81,12 @@ int main() {
         {
 
             sezgiselmatris[i][j] = lbpdegerleri[i][j] / toplamlbp ;
+
         }
 
+
     }
+
 
     for(int i = 0; i < 200; i++)                                                        // feromon matrisi başlangıç değerleri atandı
     {
@@ -84,47 +103,110 @@ int main() {
         for(int j = 0; j < 300; j++)
         {
 
+
             karincaYonOlasilik[i][j] = pow(tau_init , alpha) * pow(sezgiselmatris[i][j] , beta);
             //printf("%f" ,karincaYonOlasilik[i][j]); // olasilik matrisi yazdırır
         }
 
     }
 
-    ants karinca1(1,1);  // karinca nesnesi oluşturuldu
 
 
-    for (int k = 0; k < karincaAdim ; k++) {    //bu kısma karınca sayısı döngüsü ve iterasyon sayısıda eklenecek
-        for(int i=karinca1.konumsatir - 1 ; i < karinca1.konumsatir +2 ; i++){
-            for(int j=karinca1.konumsutun - 1 ; j < karinca1.konumsutun +2 ; j++){
-                if(i == karinca1.konumsatir && j == karinca1.konumsutun)
-                {
-                    continue;
+    for (int m = 0; m <karincaSayisi ; m++) {
+        gidilensatir.erase(gidilensatir.begin(), gidilensatir.end());  //yenisatır
+        gidilensutun.erase(gidilensutun.begin(), gidilensutun.end());    //yenisatır
+
+        gidilensatir.push_back(karincalar[m].getKonumSatir()); //
+        gidilensutun.push_back(karincalar[m].getKonumSutun());
+
+
+
+        for (int k = 0; k < karincaAdim; k++) {
+            for (int i = (karincalar[m].getKonumSatir()) - 1; i < (karincalar[m].getKonumSatir()) + 2; i++) {
+                for (int j = (karincalar[m].getKonumSutun()) - 1; j < (karincalar[m].getKonumSutun()) + 2; j++) {
+
+
+                    if (i == karincalar[m].getKonumSatir() && j == karincalar[m].getKonumSutun()) {
+                        continue;
+                    }
+                    else
+                    {
+                        for (unsigned z = 0; z < gidilensatir.size(); z++) {
+
+                            if (i == gidilensatir[z] && j == gidilensutun[z]) {    //yenisatır
+                                // printf("\n  Gidilmeye calisilan yer %d %d \n" , i , j); //gidilmeye çalışılıpta gidilemeyen yeri  yazdırır
+                                goto cnt;
+                            }
+                        }
+
+                    }
+
+
+                    if (karincaYonOlasilik[i][j] >= enbuyukolasilik) {
+                        enbuyukolasilik = karincaYonOlasilik[i][j];
+                        enbuyukolasiliksatir = i;
+                        enbuyukolasiliksutun = j;
+                    }
+
+
+
+
                 }
-                if(karincaYonOlasilik[i][j] >= enbuyukolasilik )
-                {
-                    enbuyukolasilik = karincaYonOlasilik[i][j];
-                    enbuyukolasiliksatir = i;
-                    enbuyukolasiliksutun = j;
-                }
-
+                cnt:; //yenisatır
             }
+//            printf("%d " , enbuyukolasiliksatir);
+//            printf("%d " , enbuyukolasiliksutun);
+            karincalar[m].setKonumSatir(enbuyukolasiliksatir);
+            karincalar[m].setKonumSutun(enbuyukolasiliksutun);
+
+
+
+            feromonMatrisi[karincalar[m].getKonumSatir()][karincalar[m].getKonumSutun()] = ((1 - ro) * feromonMatrisi[karincalar[m].getKonumSatir()][karincalar[m].getKonumSutun()]) + (ro * sezgiselmatris[karincalar[m].getKonumSatir()][karincalar[m].getKonumSutun()]);
+            karincaYonOlasilik[karincalar[m].getKonumSatir()][karincalar[m].getKonumSutun()] = pow(feromonMatrisi[karincalar[m].getKonumSatir()][karincalar[m].getKonumSutun()], alpha) * pow(sezgiselmatris[karincalar[m].getKonumSatir()][karincalar[m].getKonumSutun()], beta);
+
+
+            enbuyukolasilik = 0;
+            gidilensatir.push_back(enbuyukolasiliksatir); //
+            gidilensutun.push_back(enbuyukolasiliksutun); //
+
+
+            printf("%d nolu karinca   %d %d adresine gitti (local feromon guncellemesi yapildi.)\n", m, karincalar[m].getKonumSatir(), karincalar[m].getKonumSutun());
+
+
         }
-        karinca1.konumsatir = enbuyukolasiliksatir ;
-        karinca1.konumsutun = enbuyukolasiliksutun ;
-        feromonMatrisi[karinca1.konumsatir][karinca1.konumsutun] = ((1 - ro)*karincaYonOlasilik[karinca1.konumsatir][karinca1.konumsutun]) + (ro * sezgiselmatris[karinca1.konumsatir][karinca1.konumsutun]) ;
-        karincaYonOlasilik[karinca1.konumsatir][karinca1.konumsutun]= pow(feromonMatrisi[karinca1.konumsatir][karinca1.konumsutun] , alpha ) * pow(sezgiselmatris[karinca1.konumsatir][karinca1.konumsutun] , beta);
 
 
+
+
+
+        }
+    printf("Feromon matrisi global olarak guncellendi\n" );
+    for (int l = 0; l < 200; l++) {
+        for (int i = 0; i < 300; i++) {
+
+            feromonMatrisi[l][i] = ((1 - phi) * feromonMatrisi[l][i]) + (phi * tau_init);
+            printf("%f " , feromonMatrisi[l][i]  );
+
+
+        }printf("\n###########\n");
     }
 
-
-
-
-
-   // printf("%d" , toplamlbp);
-
-
-
+    // printf("%d" , toplamlbp);
 
     return 0;
+}
+
+void karincaOlustur(vector<ants>& yeniKarincalar){
+
+    for (int i = 0; i < karincaSayisi  ; i++) {
+        ants yeniKarinca(rand() % 200, rand() % 300);
+        yeniKarincalar.push_back(yeniKarinca);
+    }
+}
+
+void karincaYazdir(vector<ants>& yeniKarincalar){
+    unsigned int size = yeniKarincalar.size();
+    for (unsigned int i = 0; i < size  ; i++) {
+        printf("Karinca baslangic satiri : %d sutunu : %d\n" , yeniKarincalar[i].getKonumSatir() , yeniKarincalar[i].getKonumSutun());
+    }
 }

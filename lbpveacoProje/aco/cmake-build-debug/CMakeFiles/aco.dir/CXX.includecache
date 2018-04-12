@@ -11,6 +11,10 @@ ants.h
 C:/Users/Lenovo/CLionProjects/lbpveacoProje/aco/ants.h
 
 C:/Users/Lenovo/CLionProjects/lbpveacoProje/aco/ants.h
+iostream
+-
+string
+-
 
 C:/Users/Lenovo/CLionProjects/lbpveacoProje/aco/main.cpp
 iostream
@@ -19,6 +23,18 @@ fstream
 -
 math.h
 -
+vector
+-
+string
+-
 iomanip
+-
+random
+-
+ants.h
+C:/Users/Lenovo/CLionProjects/lbpveacoProje/aco/ants.h
+cstdlib
+-
+ctime
 -
 

@@ -14,7 +14,7 @@ int main() {
     int lbptoplam = 0;
     using namespace std;
 
-    ifstream file("C:\\Users\\Lenovo\\CLionProjects\\lbpveacoProje\\resimdegerleri\\resim3degerler.txt");
+    ifstream file("C:\\Users\\Lenovo\\CLionProjects\\lbpveacoProje\\resimdegerleri\\resim4degerler.txt");
     if(file.is_open())
     {
 
@@ -136,7 +136,7 @@ int main() {
     }
 
 
-    ofstream myfile ("C:\\Users\\Lenovo\\CLionProjects\\lbpveacoProje\\resimdegerleri\\resim3lbp.txt");
+    ofstream myfile ("C:\\Users\\Lenovo\\CLionProjects\\lbpveacoProje\\resimdegerleri\\resim4lbp.txt");
     if (myfile.is_open())
     {
 
@@ -152,7 +152,7 @@ int main() {
     else cout << "Unable to open file";
 
 
-    ofstream myfile2 ("C:\\Users\\Lenovo\\CLionProjects\\lbpveacoProje\\resimdegerleri\\resim3lbp4lu.txt");
+    ofstream myfile2 ("C:\\Users\\Lenovo\\CLionProjects\\lbpveacoProje\\resimdegerleri\\resim4lbp4lu.txt");
     if (myfile2.is_open())
     {
 

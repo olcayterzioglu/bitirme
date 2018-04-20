@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/Lenovo/CLionProjects/lbpveacoProje/KenarBelirleme/main.cpp
+iostream
+-
+fstream
+-
+math.h
+-
+vector
+-
+string
+-
+iomanip
+-
+random
+-
+cstdlib
+-
+ctime
+-
+

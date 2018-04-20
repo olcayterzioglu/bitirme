@@ -10,30 +10,37 @@
 #include <ctime>
 
 
+
 void karincaOlustur(vector<ants>&);
-void karincaYazdir(vector<ants>&);
+//void karincaYazdir(vector<ants>&);
 using namespace std;
-int karincaSayisi = 10;
+int karincaSayisi = 244;
 int main() {
     srand(static_cast<int>(time(0)));
     vector <ants> karincalar;
 
 
     int iterasyon = 2 ;
+    int karincaAdim = 100 ;
 
-    int karincaAdim = 5 ;
     double enbuyukolasilik = 0 ;
     int enbuyukolasiliksatir = 0 ;
     int enbuyukolasiliksutun = 0 ;
     vector <int> gidilensatir;
     vector <int> gidilensutun;
 
+
+
+//    vector<vector<double>> feromonMatrisi(200, vector<double>(300));
+
+
+
     double ro = 0.1;            //feromon buharlaşma oranı
     double phi = 0.05;          //feromon bozulma katsayısı
     double tau_init = 0.0001 ;  //başlangıç feromon değeri
     double alpha = 1;           //feromon bilgisi ağırlık faktörü
     double beta = 0.1;          //sezgisel bilgi ağırlık faktörü
-    double epsilon = 0.00001;   // kenar belirleme hata toleransı
+    double lamda = 1100;        //sezgisel matris katsayısı
 
     double lbpdegerleri[200][300];
     double sezgiselmatris[200][300];
@@ -42,7 +49,7 @@ int main() {
     double toplamlbp = 0;
 
 
-    ifstream file("C:\\Users\\Lenovo\\CLionProjects\\lbpveacoProje\\resimdegerleri\\resim3lbp.txt");
+    ifstream file("C:\\Users\\Lenovo\\CLionProjects\\lbpveacoProje\\resimdegerleri\\resim1lbp.txt");
     if(file.is_open())
     {
 
@@ -58,6 +65,9 @@ int main() {
         }
         file.close();
     }
+
+
+
 
     for (int i = 0; i <299 ; i++) {
 
@@ -79,12 +89,29 @@ int main() {
         for(int j = 0; j < 300; j++)
         {
 
-            sezgiselmatris[i][j] = lbpdegerleri[i][j] / toplamlbp ;
+            sezgiselmatris[i][j] = ( lbpdegerleri[i][j] / toplamlbp ) * lamda ;
+
 
         }
-
-
     }
+
+//    for(int i = 0; i < 200; i++)                                                        // en kucuk ve en buyuk sezgiseli bulur
+//    {
+//        for(int j = 0; j < 300; j++)
+//        {
+//
+//           if(sezgiselmatris[i][j] < enkucuksezgisel && sezgiselmatris[i][j] > 0)
+//           {
+//               enkucuksezgisel = sezgiselmatris[i][j];
+//           }
+//           if(sezgiselmatris[i][j] > enbuyuksezgisel)
+//           {
+//               enbuyuksezgisel = sezgiselmatris[i][j];
+//           }
+//
+//
+//        }
+//    }
 
 
     for(int i = 0; i < 200; i++)                                                        // feromon matrisi başlangıç değerleri atandı
@@ -103,17 +130,18 @@ int main() {
         {
 
 
-            karincaYonOlasilik[i][j] = pow(tau_init , alpha) * pow(sezgiselmatris[i][j] , beta);
+            karincaYonOlasilik[i][j] = pow(feromonMatrisi[i][j] , alpha) * pow(sezgiselmatris[i][j] , beta);
             //printf("%f" ,karincaYonOlasilik[i][j]); // olasilik matrisi yazdırır
         }
 
     }
 
 
+
     for (int n = 0; n < iterasyon ; n++) {
         karincaOlustur(karincalar);
-        karincaYazdir(karincalar);
-        printf("\n--------------------------------------------------\n");
+//        karincaYazdir(karincalar);
+//        printf("\n--------------------------------------------------\n");
         for (int m = 0; m <karincaSayisi ; m++) {
             gidilensatir.erase(gidilensatir.begin(), gidilensatir.end());  //yenisatır
             gidilensutun.erase(gidilensutun.begin(), gidilensutun.end());    //yenisatır
@@ -127,8 +155,11 @@ int main() {
                 for (int i = (karincalar[m].getKonumSatir()) - 1; i < (karincalar[m].getKonumSatir()) + 2; i++) {
                     for (int j = (karincalar[m].getKonumSutun()) - 1; j < (karincalar[m].getKonumSutun()) + 2; j++) {
 
-
-                        if (i == karincalar[m].getKonumSatir() && j == karincalar[m].getKonumSutun()) {
+                        if(i < 0 || j < 0)
+                        {
+                            continue;
+                        }
+                        else if(i == karincalar[m].getKonumSatir() && j == karincalar[m].getKonumSutun()) {
                             continue;
                         }
                         else
@@ -170,14 +201,15 @@ int main() {
                 gidilensutun.push_back(enbuyukolasiliksutun); //
 
 
-                printf("%d nolu karinca   %d %d adresine gitti (local feromon guncellemesi yapildi.)\n", m, karincalar[m].getKonumSatir(), karincalar[m].getKonumSutun());
+//                printf("%d nolu karinca   %d %d adresine gitti (local feromon guncellemesi yapildi.)\n", m, karincalar[m].getKonumSatir(), karincalar[m].getKonumSutun());
 
 
             }
-            printf("\n--------------------------------------------------\n");
+            //printf("\n--------------------------------------------------\n");
 
         }
-        printf("Feromon matrisi global olarak guncellendi\n" );
+//        printf("Feromon matrisi global olarak guncellendi\n" );
+//        printf("\n--------------------------------------------------\n");
         for (int l = 0; l < 200; l++) {
             for (int i = 0; i < 300; i++) {
 
@@ -195,8 +227,49 @@ int main() {
 
     }
 
+    // ****************************************************************************************************************** //
 
-    // printf("%d" , toplamlbp);
+
+
+
+
+
+
+//    for (int l = 0; l < 200; l++) {
+//        for (int i = 0; i < 300; i++) {
+//
+//
+//                printf("%.30f " , feromonMatrisi[l][i]  );
+//
+//
+//        }
+//            printf("\n###########\n");
+//    }
+
+
+    ofstream myfile ("C:\\Users\\Lenovo\\CLionProjects\\lbpveacoProje\\resimdegerleri\\resim1FeromonMatrisi.txt");
+    if (myfile.is_open())
+    {
+
+        for(int i = 0; i < 200; i++) {
+            for (int j = 0; j < 300; j++) {
+                myfile << feromonMatrisi[i][j] << " ";
+            }
+            myfile << "\n";
+        }
+        myfile.close();
+    }
+    else cout << "Unable to open file";
+
+
+//    printf("en kucuk sezgisel : %.30f" , enkucuksezgisel);
+//
+//    double denemeformulu = 0;
+//    double denemeformulu2 = 0;
+//    denemeformulu = ((1-ro) * tau_init) + (ro * enkucuksezgisel * 1100);
+//    denemeformulu2 = ((1-ro) * tau_init) + (ro * enbuyuksezgisel * 1100);
+
+//    printf("\n kucuk deger : %.30f \n buyuk deger  : %.30f" , denemeformulu , denemeformulu2);
 
     return 0;
 }
@@ -204,7 +277,7 @@ int main() {
 void karincaOlustur(vector<ants>& yeniKarincalar){
 
     for (int i = 0; i < karincaSayisi  ; i++) {
-        ants yeniKarinca(rand() % 200, rand() % 300);
+        ants yeniKarinca(rand() % 199 + 1, rand() % 299 + 1);
         yeniKarincalar.push_back(yeniKarinca);
     }
 }

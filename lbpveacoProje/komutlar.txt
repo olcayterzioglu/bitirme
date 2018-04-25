@@ -14,3 +14,12 @@
 >>A=uint8(D) % double olan D yi uint8 e çevirerek A ya atýyor
 
 >>mexprintf
+
+
+>> A = imread('resim5.jpg');
+>> sonuc = rgb2gray(A);
+>> 
+>> imshow(A);
+>> imshow(sonuc);
+>> imwrite(sonuc,'C:\Users\Lenovo\CLionProjects\lbpveacoProje\resimler\resim9.jpg');
+>> dlmwrite('resim9degerler.txt', sonuc , ' ');

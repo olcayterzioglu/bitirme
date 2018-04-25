@@ -28,13 +28,17 @@ int main() {
     int kenarMatrisi[200][300];
     double feromonMatrisi[200][300];
 
+    // *********************************************
+        string dosyaAdi = "resim17";
+    //**********************************************
 
-    ifstream file("C:\\Users\\Lenovo\\CLionProjects\\lbpveacoProje\\resimdegerleri\\resim1FeromonMatrisi.txt");
+
+    ifstream file("..\\..\\resimdegerleri\\"+dosyaAdi+"FeromonMatrisi.txt");
     if(file.is_open())
     {
 
 
-        for(int i = 0; i < 200; i++)                                                        // lbp değerleri diziye atıldı
+        for(int i = 0; i < 200; i++)                                                        // feromon değerleri diziye atıldı
         {
             for(int j = 0; j < 300; j++)
             {
@@ -45,6 +49,14 @@ int main() {
         }
         file.close();
     }
+
+//    for (int i = 0; i <200 ; i++) {
+//        for (int j = 0; j < 300; j++) {
+//
+//            printf("%f" , feromonMatrisi[i][j]) ;
+//
+//        }printf("\n *********************************" );
+//    }
 
 
     esikVektoru.erase(esikVektoru.begin(), esikVektoru.end());
@@ -57,9 +69,10 @@ int main() {
         }
 
     }
+    printf("\n toplam feromon : %f \n feromon/piksel : %f " , toplamFeromon , toplamFeromon/60000);
 
     esikVektoru.push_back(toplamFeromon / 60000);
-    printf(" Esik vektoru manual ilk deger : %f " , esikVektoru[0]);
+    printf("\n Esik vektoru manual ilk deger : %f " , esikVektoru[0]);
 
 
 
@@ -98,6 +111,8 @@ int main() {
             kucuktoplam = 0;
             buyukadet = 0;
             buyuktoplam = 0;
+            kucukortalama = 0;
+            buyukortalama = 0;
         }
         else
         {
@@ -115,18 +130,18 @@ int main() {
 
     }
 
-    printf("\n sayac : %f \n esikdegeri : %.f" , sayac , esikVektoru[sayac]);
+    printf("\n sayac : %f \n esikdegeri : %f" , sayac , esikVektoru[sayac]);
 
 
     for (int i = 0; i < 200; i++) {
         for (int j = 0; j < 300; j++) {
-            if (feromonMatrisi[i][j] >= esikVektoru[sayac])
+            if (feromonMatrisi[i][j] >= esikVektoru[sayac] )
             {
-                kenarMatrisi[i][j] = 0;
+                kenarMatrisi[i][j] = 255;
             }
             else
             {
-                kenarMatrisi[i][j] = 255;
+                kenarMatrisi[i][j] = 0;
             }
 
 
@@ -134,7 +149,7 @@ int main() {
 
     }
 
-    ofstream myfile ("C:\\Users\\Lenovo\\CLionProjects\\lbpveacoProje\\resimdegerleri\\resim1kenarlar.txt");
+    ofstream myfile ("..\\..\\resimdegerleri\\"+dosyaAdi+"kenarlar.txt");
     if (myfile.is_open())
     {
 
@@ -147,6 +162,16 @@ int main() {
         myfile.close();
     }
     else cout << "Unable to open file";
+
+
+//    for (int i = 0; i <200 ; i++) {
+//        for (int j = 0; j < 300; j++) {
+//
+//            printf(" %f",feromonMatrisi[i][j]);
+//
+//        }
+//        printf("\n *****************************************");
+//    }
 
 
 
